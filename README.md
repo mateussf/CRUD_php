@@ -9,16 +9,18 @@ Desenvolvido com PHP 7.4 e banco de dados instalado através do wampServer e com
 
 -> Clonar o projeto:
 
-got clone https://github.com/mateussf/testeKabum.git
+git clone https://github.com/mateussf/testeKabum.git
 
 -> Na raiz do projeto, iniciar o composer
+
 compser install
-composer dump-autoload
+
 
 -> Para fazer a crição do banco de dados e as respectivas tabelas, rodar o script estrutura.sql que pode ser encontrado na raiz do projeto.
 
 
 -> Iniciar o servidor do PHP embutido
+
 php -S localhost:8000 -t public
 
 
