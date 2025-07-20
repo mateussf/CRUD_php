@@ -10,7 +10,7 @@ Desenvolvido com PHP 7.4 e banco de dados instalado através do wampServer e com
 -> Clonar o projeto:
 
 ```bash
-git clone https://github.com/mateussf/testeKabum.git
+git clone https://github.com/mateussf/CRUD_php.git
 ```
 
 - Na raiz do projeto, iniciar o composer
