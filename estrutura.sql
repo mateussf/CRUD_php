@@ -1,5 +1,5 @@
-create database testeKabum;
-use testeKabum;
+create database teste_crud;
+use teste_crud;
 
 
 
@@ -7,7 +7,7 @@ CREATE TABLE usuarios (
     codigo INTEGER AUTO_INCREMENT PRIMARY KEY,
     nome VARCHAR(200) NOT NULL,
     usuario VARCHAR(30) UNIQUE NOT NULL,
-    senha VARCHAR(30) NOT NULL,
+    senha VARCHAR(30) NOT NULL
 );
 
 create table clientes (
@@ -26,7 +26,7 @@ create table clientes (
 create table enderecos (
     codigo integer AUTO_INCREMENT PRIMARY KEY,
     codigo_cliente integer not null,
-    descricao varchar(200) not null,
+    endereco varchar(200) not null,
     numero varchar(10),
     bairro varchar(200),
     cidade varchar(200),
@@ -55,4 +55,4 @@ create table clientes_historico (
 
 
 
-insert into usuarios (nome, usuario, senha) values ('Mateus', 'mateus', 'senha123');
+insert into usuarios (nome, usuario, senha) values ('Administrador', 'admin', 'senha123');

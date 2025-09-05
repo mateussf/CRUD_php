@@ -33,8 +33,21 @@ class Model {
     }
 
     public function where($column, $value) {
-        $this->query = "SELECT * FROM $this->table WHERE $column = :value";
-        $this->params = [':value' => $value];
+        if (!$this->query) {
+            $this->query = "SELECT * FROM $this->table";
+        }
+
+        // Cria um nome de parâmetro único baseado na quantidade atual de parâmetros
+        $paramIndex = count($this->params) + 1;
+        $paramName = ":value$paramIndex";
+
+        if (stripos($this->query, 'WHERE') !== false) {
+            $this->query .= " AND $column = $paramName";
+        } else {
+            $this->query .= " WHERE $column = $paramName";
+        }
+        $this->params[$paramName] = $value;
+
         return $this;
     }
 
@@ -79,12 +92,34 @@ class Model {
         return $stmt->execute([$codigo]);
     }
 
-    public static function all() {
-        $pdo = Database::connect();
-        $table = (new static())->table;
-        $stmt = $pdo->prepare("SELECT * FROM $table");
+    public function all() {
+
+        if ($this->query) {
+            $stmt = $this->pdo->prepare($this->query);
+            $stmt->execute($this->params);
+
+            $this->query = null;
+            $this->params = [];
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        }
+
+        $stmt = $this->pdo->prepare("SELECT * FROM $this->table");
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public function ativo() {
+
+        if ($this->query) {
+            if (stripos($this->query, 'WHERE') !== false) {
+                $this->query .= " AND dataexclusao IS NULL";
+            } else {
+                $this->query .= " WHERE ativo = 'S'";
+            }
+        } else {
+            $this->query = "SELECT * FROM $this->table WHERE ativo = 'S' ";
+        }
+        return $this;
     }
 
     public function save()
@@ -95,4 +130,15 @@ class Model {
             return $this->create();
         }
     }
+
+    public function fillFromArray(array $dados)
+{
+    foreach ($dados as $campo => $valor) {
+        $setter = 'set' . str_replace(' ', '', ucwords(str_replace('_', ' ', $campo)));
+        if (method_exists($this, $setter)) {
+            $this->$setter($valor);
+        }
+    }
+    return $this;
+}
 }

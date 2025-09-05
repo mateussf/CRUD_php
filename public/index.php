@@ -5,11 +5,6 @@
     }
 
     require_once __DIR__ . '/../vendor/autoload.php';
-
-    use App\controllers\ClienteController;
-
-    $controller = new ClienteController();
-
 ?>
 
 <!DOCTYPE html>
@@ -26,7 +21,6 @@
 <body>
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <div class="container-fluid">
-                <img alt="Logo Kabum" loading="lazy" width="158" height="64" decoding="async" data-nimg="1" src="https://static.kabum.com.br/conteudo/icons/logo.svg" style="color: transparent; height: 100%;">
             <div class="collapse navbar-collapse justify-content-end">
                 <ul class="navbar-nav">
                     <li class="nav-item">
@@ -192,15 +186,19 @@
                     data: form,
                     dataType: "json",
                     success: function (xRetorno) {
+                        if (xRetorno.error) {
+                            ExibeMensagem(xRetorno.message, 'error');
+                            return;
+                        }
+
                         $(".modal").modal("hide");
                         limpaModal();
                         carregaClientes();
 
-                        ExibeMensagem(xRetorno.message);
+                        ExibeMensagem(xRetorno.message, 'success');
                     },
                     error: function (data) {
-                        ExibeMensagem('Ocorreu um erro ao cadastrar o cliente.');
-
+                        ExibeMensagem(xRetorno.message, 'error');
                     }
                 });
             });
@@ -234,10 +232,12 @@
                     type: "POST",
                     data: {codigo: codigo},
                     success: function (xRetorno) {
+                        console.log(xRetorno)
                         carregaClientes();
                         ExibeMensagem('Cliente deletado com sucesso!');
                     },
                     error: function (data) {
+                        console.log(xRetorno)
                         ExibeMensagem('Ocorreu um erro ao deletar o cliente.');
                     }
                 });
@@ -251,6 +251,7 @@
                     dataType: "json",
                     data: {codigo: codigo},
                     success: function (xRetorno) {
+                        console.log(xRetorno)
                         $("#codigo").val(xRetorno.codigo);
                         $("#nome").val(xRetorno.nome);
                         $("#data_nascimento").val(xRetorno.data_nascimento);
@@ -311,6 +312,7 @@
                                 $('#dvenderecos').append(row);
                             });
                         } else {
+
                             // Se não houver endereços, adicione um novo endereço vazio
                             novoEndereco();
                         }
@@ -318,6 +320,7 @@
                         $(".modal").modal("show");
                     },
                     error: function (data) {
+                        console.log(data)
                         ExibeMensagem('Ocorreu um erro ao editar o cliente.');
                     }
                 });
@@ -348,6 +351,7 @@
                             $(".tblClientes tbody").append(tr);
                         });
                         reinicializaAcaoBotoes();
+                        console.log(xRetorno)
                     },
                     error: function (data) {
                         ExibeMensagem('Ocorreu um erro ao carregar os clientes.');
@@ -407,8 +411,8 @@
 
             var colComplemento = $('<div>', { class: 'col-12' }).append(
                 $('<div>', { class: 'form-floating mb-3' }).append(
-                    $('<input>', { type: 'text', class: 'form-control', name: 'complemento[]', placeholder: 'Estado' }),
-                    $('<label>', { for: 'floatingInput' }).text('Estado')
+                    $('<input>', { type: 'text', class: 'form-control', name: 'complemento[]', placeholder: 'Complemento' }),
+                    $('<label>', { for: 'floatingInput' }).text('Complemento')
                 )
             );
 

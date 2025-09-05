@@ -13,13 +13,26 @@ Desenvolvido com PHP 7.4 e banco de dados instalado através do wampServer e com
 git clone https://github.com/mateussf/CRUD_php.git
 ```
 
-- Na raiz do projeto, iniciar o composer
+- iniciar o composer, na raiz do projeto
 
 ```bash
+cd CRUD_php
 compser install
 ```
 
 - Para fazer a crição do banco de dados e as respectivas tabelas, rodar o script estrutura.sql que pode ser encontrado na raiz do projeto.
+```bash
+Usuário: admin
+Senha: senha123
+```
+
+
+- Configurar as credenciais do banco de dados em app/db/Database.php
+- Criar as variaveis de ambiente por segurança
+```bash
+DB_USERNAME
+DB_PASSWORD
+```
 
 
 - Iniciar o servidor do PHP embutido
@@ -27,19 +40,3 @@ compser install
 php -S localhost:8000 -t public
 ```
 
-- Configurar as credenciais do banco de dados em app/db/Database.php
-
-
-
-## Rodando os testes
-
-Para rodar os testes, rode o seguinte comando
-
-```bash
-  php vendor/bin/phpunit tests/LoginControllerTest.php
-  php vendor/bin/phpunit tests/ClienteControllerTest.php
-```
-
-### O teste de Cliente, infelizmente não está funcionando devido ao curto prazo para realização, mas acabei deixando no projeto para ilustrar.
-
-Pretendo utilizar o projeto para futuros testes para aprendizado contínuo.

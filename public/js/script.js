@@ -64,11 +64,11 @@ async function ExibePergunta(pergunta, botaoVerdadeiro = 'Sim', botaoFalso = 'NÃ
     return resposta;
 }
 
-async function ExibeMensagem(mensagem) {
+async function ExibeMensagem(mensagem, tipo = 'info') {
     return await Swal.fire({
         title: '',
         html: '<div style="text-align: center">'+mensagem+'</div>',
-        icon: 'info',
+        icon: tipo,
         showCancelButton: false,
         confirmButtonColor: "#198754",
         allowEscapeKey: false,
